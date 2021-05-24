@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>SSB API mot Statstikkbanken - POST / Highcharts eksempel</title>
+		<title>Byggekostnadsindeks for hytta vår</title>
 
 		<!-- 1. Add these JavaScript inclusions in the head of your page  -->
 		<!-- json-stat.js - JSON-stat Javascript Toolkit (JJT) -->
@@ -23,39 +23,39 @@
 		  query=
 		  /* Api spørring - kode kan f.eks. tas fra Konsoll */
 			  {
-  "query": [
-    {
-      "code": "Arbeidstype",
-      "selection": {
-        "filter": "item",
-        "values": [
-          "05"
-        ]
-      }
-    },
-    {
-      "code": "ContentsCode",
-      "selection": {
-        "filter": "item",
-        "values": [
-          "BKIIndex"
-        ]
-      }
-    },
-    {
-      "code": "Tid",
-      "selection": {
-        "filter": "top",
-        "values": [
-          "2"
-        ]
-      }
-    }
-  ],
-  "response": {
-    "format": "json-stat2"
-  }
-}
+				  "query": [
+					{
+					  "code": "Arbeidstype",
+					  "selection": {
+						"filter": "item",
+						"values": [
+						  "05"
+						]
+					  }
+					},
+					{
+					  "code": "ContentsCode",
+					  "selection": {
+						"filter": "item",
+						"values": [
+						  "BKIIndex"
+						]
+					  }
+					},
+					{
+					  "code": "Tid",
+					  "selection": {
+						"filter": "top",
+						"values": [
+						  "12"
+						]
+					  }
+					}
+				  ],
+				  "response": {
+					"format": "json-stat2"
+				  }
+				}
 
 			/* slutt API-spørring */
 ;
@@ -73,7 +73,7 @@
 			        },
 
 			        title: {
-						text: 'Årlig befolkningsvekst i prosent, siste 200 år'
+						text: 'Byggekostnadsindeks for hytta vår, siste 12 måneder'
 					},
 
 					xAxis: [
@@ -87,14 +87,14 @@
 					yAxis: [
 						{
 								title: {
-								text: 'Prosent'
+								text: 'Verdi'
 							}
 						}
 					],
 
 					series:[
 					{
-						name: 'Vekst i %',
+						name: 'BKIndeks',
 						/* viser verdiene. siden det kun er en serie i datasettet kan en benytte ds.value */
 						data: ds.value,
 
@@ -125,7 +125,7 @@
     }*/
 	</script>
 
-	<p>SSB API mot Statstikkbanken - http POST spørring / Json-stat med Highcharts eksempel<br />Bruk "Vis kilde"</p>
+	<p>Hytta på Lygna</p>
 		<!-- 3. Add the container -->
 	<div id="container" style=" margin: 0 auto"></div>
 
