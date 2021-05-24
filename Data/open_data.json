@@ -1,0 +1,34 @@
+{
+  "query": [
+    {
+      "code": "Arbeidstype",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "05"
+        ]
+      }
+    },
+    {
+      "code": "ContentsCode",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "BKIIndex"
+        ]
+      }
+    },
+    {
+      "code": "Tid",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "2021M04"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}

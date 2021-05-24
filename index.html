@@ -1,32 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>JSON Test</title>
-</head>
-<body>
-    <div id="myData"></div>
-    <script>
-        fetch('people.json')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                appendData(data);
-            })
-            .catch(function (err) {
-                console.log('error: ' + err);
-            });
-        function appendData(data) {
-            var mainContainer = document.getElementById("myData");
-            for (var i = 0; i < data.length; i++) {
-                var div = document.createElement("div");
-                div.innerHTML = 'Name: ' + data[i].firstName + ' ' + data[i].lastName;
-                mainContainer.appendChild(div);
-            }
-        }
-    </script>
-</body>
+
+<!-- Mal for Highcharts - API: Lag egne datasett -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "https://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>SSB API mot Statstikkbanken - POST / Highcharts eksempel</title>
+
+		<!-- 1. Add these JavaScript inclusions in the head of your page  -->
+		<!-- json-stat.js - JSON-stat Javascript Toolkit (JJT) -->
+		<script type="text/javascript" src="https://json-stat.org/lib/json-stat.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+
+	</head>
+
+	<body>
+		<script type="text/javascript">
+
+		/* url som spørringen postes mot */
+		  url="https://data.ssb.no/api/v0/no/table/08653";
+
+		  query=
+		  /* Api spørring - kode kan f.eks. tas fra Konsoll */
+			  {
+  "query": [
+    {
+      "code": "Arbeidstype",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "05"
+        ]
+      }
+    },
+    {
+      "code": "ContentsCode",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "BKIIndex"
+        ]
+      }
+    },
+    {
+      "code": "Tid",
+      "selection": {
+        "filter": "top",
+        "values": [
+          "2"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}
+
+			/* slutt API-spørring */
+;
+
+	  function main(obj){
+      ds=JSONstat(obj).Dataset(0);
+
+      /*jQuery sjekk */
+      $(document).ready(function() {
+		/* Highcharts kode */
+			    $('#container').highcharts({
+
+			        chart: {
+			        	type: 'spline'
+			        },
+
+			        title: {
+						text: 'Årlig befolkningsvekst i prosent, siste 200 år'
+					},
+
+					xAxis: [
+						{
+							/* Henter årene fra datasettet */
+							categories: ds.Dimension("Tid").id,
+							tickInterval: 10,
+						}
+					],
+
+					yAxis: [
+						{
+								title: {
+								text: 'Prosent'
+							}
+						}
+					],
+
+					series:[
+					{
+						name: 'Vekst i %',
+						/* viser verdiene. siden det kun er en serie i datasettet kan en benytte ds.value */
+						data: ds.value,
+
+					},
+					],
+			    });
+			}
+			/* Slutt Highcharts kode */
+		);
+	}
+
+
+	  $.post({
+      url: url,
+      data: JSON.stringify(query),
+      success: main
+    });
+
+	/* funksjon for å POSTe en spørring mot url
+    POST(url, query, main);
+
+    function POST(url, query, main){
+      fetch( url, { method: "post", body: JSON.stringify(query) } )
+        .then(function(resp) {
+          resp.json().then(main);
+        })
+      ;
+    }*/
+	</script>
+
+	<p>SSB API mot Statstikkbanken - http POST spørring / Json-stat med Highcharts eksempel<br />Bruk "Vis kilde"</p>
+		<!-- 3. Add the container -->
+	<div id="container" style=" margin: 0 auto"></div>
+
+	</body>
 </html>
